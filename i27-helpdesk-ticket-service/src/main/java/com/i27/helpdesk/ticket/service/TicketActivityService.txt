@@ -1,0 +1,36 @@
+package com.i27.helpdesk.ticket.service;
+
+import com.i27.helpdesk.ticket.model.TicketActivity;
+import com.i27.helpdesk.ticket.repository.TicketActivityRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class TicketActivityService {
+
+    private final TicketActivityRepository repository;
+
+    public TicketActivityService(TicketActivityRepository repository) {
+        this.repository = repository;
+    }
+
+    public void log(
+            Long ticketId,
+            String action,
+            Long performedBy,
+            String message
+    ) {
+        TicketActivity activity = new TicketActivity();
+        activity.setTicketId(ticketId);
+        activity.setAction(action);
+        activity.setPerformedBy(performedBy);
+        activity.setMessage(message);
+
+        repository.save(activity);
+    }
+
+    public List<TicketActivity> getByTicket(Long ticketId) {
+        return repository.findByTicketIdOrderByCreatedAtAsc(ticketId);
+    }
+}
