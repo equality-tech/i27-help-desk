@@ -1,0 +1,16 @@
+DOCKER:
+
+docker build -t i27helpdesk-auth-service:v1 .
+docker run -d --name i27-auth --network helpdesk-net -p 8081:8081 --env-file .env i27helpdesk-auth-service:v1
+
+docker build -t i27helpdesk-ticket-service:v1 .
+docker run -d --name i27-ticket --network helpdesk-net -p 8082:8082 --env-file .env i27helpdesk-ticket-service:v1
+
+docker build -t i27helpdesk-comment-service:v1 .
+docker run -d --name i27-comment --network helpdesk-net -p 8083:8083 --env-file .env i27helpdesk-comment-service:v1
+
+docker build -t i27helpdesk-gateway-service:v1 .
+docker run -d --name i27-gateway --network helpdesk-net -p 8080:8080 --env-file .env i27helpdesk-gateway-service:v1
+
+docker build -t i27helpdesk-ui-service:v1 --build-arg NEXT_PUBLIC_API_BASE_URL=http://localhost:8080 .
+docker run -d --name i27-ui -p 3000:3000 i27helpdesk-ui-service:v1
