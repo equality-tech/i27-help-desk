@@ -1,0 +1,52 @@
+name: ui-ms-ci-cd
+on:
+    workflow_dispatch: 
+
+env:
+  DOCKER_IMAGE_NAME: 'mdbasheer333/i27-ui-ms'
+
+jobs:
+  test-app:
+    runs-on: ubuntu-latest
+    name: app testing
+    steps:
+      - id: step1
+        name: check out code
+        uses: actions/checkout@v7
+      - id: step2
+        name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: i27-helpdesk-gateway/package-lock.json
+      - id: step3
+        name: run the test
+        working-directory: i27-helpdesk-ui
+        run: |          
+          npm test
+
+  docker-build-package-push-job: 
+    name: docker build, package and push
+    runs-on: ubuntu-latest
+    needs: test-app
+    
+    steps:  
+      - name: checkout repo
+        uses: actions/checkout@v7
+        
+      - name: docker login
+        uses: docker/login-action@v4
+        with:
+          username: ${{vars.DOCKERHUB_USERNAME}}
+          password: ${{secrets.DOCKERHUB_TOKEN}}
+      
+      - name: docker build image
+        working-directory: i27-helpdesk-ui
+        run: docker build -t ${{env.DOCKER_IMAGE_NAME}}:${{github.sha}} --build-arg NEXT_PUBLIC_API_BASE_URL=${{vars.NEXT_PUBLIC_API_BASE_URL}} .
+
+      - name: docker info
+        run: docker images
+        
+      - name: docker push
+        run: docker push ${{env.DOCKER_IMAGE_NAME}}:${{github.sha}}
