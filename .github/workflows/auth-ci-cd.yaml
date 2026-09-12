@@ -9,7 +9,7 @@ jobs:
   test-app:
     runs-on: ubuntu-latest
     name: app testing
-    steps:
+    steps:      
       - id: step1
         name: check out code
         uses: actions/checkout@v7
@@ -23,8 +23,8 @@ jobs:
 
       - id: step3
         name: run the test
+        working-directory: i27-helpdesk-auth-service
         run: |
-          cd i27-helpdesk-auth-service
           mvn clean test
           
       - id: step4
@@ -51,6 +51,7 @@ jobs:
           password: ${{secrets.DOCKERHUB_TOKEN}}
       
       - name: docker build image
+        working-directory: i27-helpdesk-auth-service
         run: docker build -t ${{env.DOCKER_IMAGE_NAME}}:${{github.sha}} .
 
       - name: docker info

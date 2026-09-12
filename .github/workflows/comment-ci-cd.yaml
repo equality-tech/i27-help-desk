@@ -41,6 +41,7 @@ jobs:
           password: ${{secrets.DOCKERHUB_TOKEN}}
       
       - name: docker build image
+        working-directory: i27-helpdesk-comment-service
         run: docker build -t ${{env.DOCKER_IMAGE_NAME}}:${{github.sha}} .
 
       - name: docker info
