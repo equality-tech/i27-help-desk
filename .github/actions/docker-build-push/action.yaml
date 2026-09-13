@@ -2,12 +2,12 @@ name: build and push docker image
 description: this will build and push docker image
 
 inputs:
-  IMAGE_NAME: 
+  IMAGE_NAME:
     description: docker image name
     required: true
   WORKING_DIR:
-   description: working dir of micro service
-   required: true
+    description: working dir of micro service
+    required: true
   DOCKERHUB_USERNAME:
     description: docker user for login
     required: true
@@ -22,18 +22,14 @@ outputs:
 
 runs:
   using: composite
-  
-  steps:
-    - id: checkout
-      name: checkout repo
-      uses: actions/checkout@v7
 
+  steps:
     - id: docker-login
       name: docker login
-      uses: docker/login-action@v4      
+      uses: docker/login-action@v4
       with:
         username: ${{inputs.DOCKERHUB_USERNAME}}
-        password: ${{inputs.DOCKERHUB_TOKEN}}    
+        password: ${{inputs.DOCKERHUB_TOKEN}}
 
     - id: docker-build-image
       name: docker build image

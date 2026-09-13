@@ -6,7 +6,7 @@ inputs:
     description: working dir of micro service
     required: true
   PYTHON_VERSION:
-    description: verion of python to be used
+    description: version of python to be used
     default: "3.13"
     required: false
 
@@ -14,10 +14,6 @@ runs:
   using: composite
 
   steps:
-    - id: checkout
-      name: checkout repo
-      uses: actions/checkout@v7
-
     - id: install-python
       name: install python
       uses: actions/setup-python@v5

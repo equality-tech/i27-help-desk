@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     name: node test
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
       - id: node-test
         name: node test
         uses: ./.github/actions/node-test
@@ -23,6 +26,9 @@ jobs:
     needs: node-test-app
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
       - name: docker push image
         uses: ./.github/actions/docker-build-push
         with:

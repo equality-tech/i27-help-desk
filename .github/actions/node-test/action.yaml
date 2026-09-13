@@ -6,7 +6,7 @@ inputs:
     description: working dir of micro service
     required: true
   NODE_VERSION:
-    description: verion of node to be used
+    description: version of node to be used
     default: "22"
     required: false
 
@@ -14,10 +14,6 @@ runs:
   using: composite
 
   steps:
-    - id: checkout
-      name: checkout repo
-      uses: actions/checkout@v7
-
     - id: install-node
       name: install node
       uses: actions/setup-node@v4
@@ -25,6 +21,13 @@ runs:
         node-version: ${{inputs.NODE_VERSION}}
         cache: npm
         cache-dependency-path: ${{inputs.WORKING_DIR}}/package-lock.json
+
+    - id: install-deps
+      name: install deps
+      shell: bash
+      working-directory: ${{inputs.WORKING_DIR}}
+      run: |
+        npm ci
 
     - id: run-tests
       name: run the tests

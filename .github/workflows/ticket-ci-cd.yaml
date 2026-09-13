@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     name: java maven test
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
       - id: java-maven-test
         name: java maven test
         uses: ./.github/actions/java-maven-test
@@ -23,6 +26,9 @@ jobs:
     needs: maven-test-app
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
       - name: docker push image
         uses: ./.github/actions/docker-build-push
         with:
