@@ -18,7 +18,7 @@ jobs:
         name: node test
         uses: ./.github/actions/node-test
         with:
-          WORKING_DIR: $WORKING_DIR
+          WORKING_DIR: ${{env.WORKING_DIR}}
 
   docker-build-package-push-job:
     name: docker build, package and push
