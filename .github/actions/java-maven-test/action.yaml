@@ -1,0 +1,53 @@
+name: test java app
+description: this will build and maven test java app
+
+inputs:
+  WORKING_DIR:
+    description: working dir of micro service
+    required: true
+  JAVA_VERSION:
+    description: verion of java to be used
+    default: "21"
+    required: false
+  DISTRIBUTION:
+    description: distrubution of java to be used
+    default: temurin
+    required: false  
+  SKIP_UPLOAD_ARTIFACT:
+    required: false
+    default: false
+    description: to skip uploading artifact or not
+  RETENTION_DAYS:
+    required: false
+    default: 3
+    description: retention days for artifacts
+
+runs:
+  using: composite
+
+  steps:
+    - id: checkout
+      name: checkout repo
+      uses: actions/checkout@v7
+
+    - id: install-java
+      name: install java
+      uses: actions/setup-java@v6
+      with:
+        distribution: ${{inputs.DISTRIBUTION}}
+        java-version: ${{inputs.JAVA_VERSION}}
+
+    - id: run-tests
+      name: run the tests
+      shell: bash
+      working-directory: ${{inputs.WORKING_DIR}}
+      run: mvn clean test
+
+    - id: upload-artifact
+      if: inputs.SKIP_UPLOAD_ARTIFACT == 'false'
+      name: uploading artifact
+      uses: actions/upload-artifact@v7
+      with:
+        name: ${{inputs.WORKING_DIR}}
+        path: ./${{inputs.WORKING_DIR}}/target/surefire-reports
+        retention-days: ${{inputs.RETENTION_DAYS}}

@@ -1,0 +1,54 @@
+name: build and push docker image
+description: this will build and push docker image
+
+inputs:
+  IMAGE_NAME: 
+    description: docker image name
+    required: true
+  WORKING_DIR:
+   description: working dir of micro service
+   required: true
+  DOCKERHUB_USERNAME:
+    description: docker user for login
+    required: true
+  DOCKERHUB_TOKEN:
+    description: docker access token to login
+    required: true
+
+outputs:
+  IMAGE:
+    description: final image name
+    value: ${{ steps.docker-push.outputs.IMAGE }}
+
+runs:
+  using: composite
+  
+  steps:
+    - id: checkout
+      name: checkout repo
+      uses: actions/checkout@v7
+
+    - id: docker-login
+      name: docker login
+      uses: docker/login-action@v4      
+      with:
+        username: ${{inputs.DOCKERHUB_USERNAME}}
+        password: ${{inputs.DOCKERHUB_TOKEN}}    
+
+    - id: docker-build-image
+      name: docker build image
+      shell: bash
+      working-directory: ${{inputs.WORKING_DIR}}
+      run: docker build -t ${{inputs.IMAGE_NAME}}:${{github.sha}} .
+
+    - id: docker-list-image
+      name: docker info
+      shell: bash
+      run: docker images
+
+    - id: docker-push
+      name: docker push image
+      shell: bash
+      run: |
+        docker push ${{inputs.IMAGE_NAME}}:${{github.sha}}
+        echo "IMAGE=${{inputs.IMAGE_NAME}}:${{github.sha}}" >> $GITHUB_OUTPUT

@@ -1,0 +1,34 @@
+name: test node app
+description: this will test node app
+
+inputs:
+  WORKING_DIR:
+    description: working dir of micro service
+    required: true
+  NODE_VERSION:
+    description: verion of node to be used
+    default: "22"
+    required: false
+
+runs:
+  using: composite
+
+  steps:
+    - id: checkout
+      name: checkout repo
+      uses: actions/checkout@v7
+
+    - id: install-node
+      name: install node
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{inputs.NODE_VERSION}}
+        cache: npm
+        cache-dependency-path: ${{inputs.WORKING_DIR}}/package-lock.json
+
+    - id: run-tests
+      name: run the tests
+      shell: bash
+      working-directory: ${{inputs.WORKING_DIR}}
+      run: |
+        npm test
