@@ -36,3 +36,4 @@ jobs:
           WORKING_DIR: ${{env.WORKING_DIR}}
           DOCKERHUB_USERNAME: ${{vars.DOCKERHUB_USERNAME}}
           DOCKERHUB_TOKEN: ${{secrets.DOCKERHUB_TOKEN}}
+          ADDITIONAL_ARGS: --build-arg NEXT_PUBLIC_API_BASE_URL=${{vars.NEXT_PUBLIC_API_BASE_URL}} .

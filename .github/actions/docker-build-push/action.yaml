@@ -8,6 +8,10 @@ inputs:
   WORKING_DIR:
     description: working dir of micro service
     required: true
+  ADDITIONAL_ARGS:
+    description: additional args for builing the image
+    required: false
+    default: ''
   DOCKERHUB_USERNAME:
     description: docker user for login
     required: true
@@ -35,7 +39,7 @@ runs:
       name: docker build image
       shell: bash
       working-directory: ${{inputs.WORKING_DIR}}
-      run: docker build -t ${{inputs.IMAGE_NAME}}:${{github.sha}} .
+      run: docker build -t ${{inputs.IMAGE_NAME}}:${{github.sha}} ${{inputs.ADDITIONAL_ARGS}} .
 
     - id: docker-list-image
       name: docker info
