@@ -5,7 +5,7 @@ on:
 
 jobs:
   
-  java-test-build-push:    
+  python-test-build-push:    
     name: python test build push
     uses: ./.github/workflows/wf-python.yaml
     secrets: inherit 
