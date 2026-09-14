@@ -1,4 +1,4 @@
-name: reuse-node-ms-ci-cd
+name: wf-reuse-node-ms-ci-cd
 on:
   workflow_call:
     inputs:
