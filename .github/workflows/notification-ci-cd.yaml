@@ -7,7 +7,7 @@ jobs:
   
   python-test-build-push:    
     name: python test build push
-    uses: ./.github/workflows/wf-python.yaml
+    uses: ./.github/workflows/wf-reuse-python.yaml
     secrets: inherit 
     with:
       DOCKER_IMAGE_NAME: mdbasheer333/i27-notification-ms
