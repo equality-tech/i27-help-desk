@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     name: java test build push
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7      
       - name: java re usable work-flow call
         uses: ./wf-java.yaml
         with:
