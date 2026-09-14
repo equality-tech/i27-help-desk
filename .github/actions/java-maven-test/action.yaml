@@ -26,9 +26,7 @@ runs:
   using: composite
 
   steps:
-    - name: Checkout repository
-      uses: actions/checkout@v7  
-      
+  
     - id: install-java
       name: install java
       uses: actions/setup-java@v6

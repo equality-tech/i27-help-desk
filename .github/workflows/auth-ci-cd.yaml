@@ -1,19 +1,12 @@
 name: auth-ms-ci-cd
 on:
   workflow_dispatch:
-env:
-  DOCKER_IMAGE_NAME: "mdbasheer333/i27-auth-ms"
-  WORKING_DIR: i27-helpdesk-auth-service
 
 jobs:
-  java-test-build-push:
-    runs-on: ubuntu-latest
+  
+  java-test-build-push:    
     name: java test build push
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v7      
-      - name: java re usable work-flow call
-        uses: ./wf-java.yaml
-        with:
-          DOCKER_IMAGE_NAME: ${{env.DOCKER_IMAGE_NAME}}
-          WORKING_DIR: ${{env.WORKING_DIR}}
+    uses: ./.github/workflows/wf-java.yaml    
+    with:
+      DOCKER_IMAGE_NAME: mdbasheer333/i27-auth-ms
+      WORKING_DIR: i27-helpdesk-auth-service
