@@ -1,4 +1,4 @@
-name: java-ms-ci-cd
+name: python-ms-ci-cd
 on:
   workflow_call:
     inputs:
@@ -10,30 +10,29 @@ on:
         required: true     
 
 jobs:
-  maven-test-app:
+  python-test-app:
     runs-on: ubuntu-latest
-    name: java maven test
+    name: python app testing
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
 
-      - id: java-maven-test
-        name: java maven test
-        uses: ./.github/actions/java-maven-test
+      - id: python-test-app
+        name: check out code
+        uses: ./.github/actions/python-test
         with:
           WORKING_DIR: ${{inputs.WORKING_DIR}}
 
   docker-build-package-push-job:
-    name: docker build and push
+    name: docker build, package and push
     runs-on: ubuntu-latest
-    needs: maven-test-app
+    needs: python-test-app
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
 
       - name: docker push image
-        id: docker-push-image
         uses: ./.github/actions/docker-build-push
         with:
           IMAGE_NAME: ${{inputs.DOCKER_IMAGE_NAME}}
