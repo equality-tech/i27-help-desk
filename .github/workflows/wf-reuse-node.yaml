@@ -1,4 +1,4 @@
-name: node-ms-ci-cd
+name: reuse-node-ms-ci-cd
 on:
   workflow_call:
     inputs:

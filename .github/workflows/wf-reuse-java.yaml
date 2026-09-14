@@ -1,4 +1,4 @@
-name: java-ms-ci-cd
+name: reuse-java-ms-ci-cd
 on:
   workflow_call:
     inputs:

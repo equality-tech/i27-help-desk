@@ -1,4 +1,4 @@
-name: python-ms-ci-cd
+name: reuse-python-ms-ci-cd
 on:
   workflow_call:
     inputs:
