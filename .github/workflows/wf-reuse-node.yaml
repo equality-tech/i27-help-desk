@@ -35,7 +35,7 @@ jobs:
       - name: docker push image
         uses: ./.github/actions/docker-build-push
         with:
-          IMAGE_NAME: ${{inputs}}
+          IMAGE_NAME: ${{inputs.DOCKER_IMAGE_NAME}}
           WORKING_DIR: ${{inputs.WORKING_DIR}}
           DOCKERHUB_USERNAME: ${{vars.DOCKERHUB_USERNAME}}
           DOCKERHUB_TOKEN: ${{secrets.DOCKERHUB_TOKEN}}
